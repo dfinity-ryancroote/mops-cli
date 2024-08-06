@@ -19,10 +19,6 @@ jobs:
             name: macos
             artifact_name: target/release/mops-cli
             asset_name: mops-cli-macos
-          - os: ubuntu-latest
-            name: arm
-            artifact_name: target/arm-unknown-linux-gnueabihf/release/mops-cli
-            asset_name: mops-cli-arm32
     steps:
       - uses: actions/checkout@v4
       - name: Install stable toolchain
@@ -90,7 +86,6 @@ jobs:
       matrix:
         include:
           - asset_name: mops-cli-linux64
-          - asset_name: mops-cli-arm32
           - asset_name: mops-cli-macos
     runs-on: ubuntu-latest
     steps:
