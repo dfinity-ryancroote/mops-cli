@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             name: linux64
             artifact_name: target/release/mops-cli
             asset_name: mops-cli-linux64
@@ -22,30 +22,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install stable toolchain
-        if: matrix.name != 'arm'
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           toolchain: stable
           override: true
-      - name: Install stable ARM toolchain
-        if: matrix.name == 'arm'
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-          target: arm-unknown-linux-gnueabihf
       - name: Build
-        if: matrix.name != 'arm'
         run: cargo build -p mops-cli --release --locked
-      - name: Cross build
-        if: matrix.name == 'arm'
-        uses: actions-rs/cargo@v1
-        with:
-          use-cross: true
-          command: build
-          args: -p mops-cli --target arm-unknown-linux-gnueabihf --release --locked
       - name: 'Upload assets'
         uses: actions/upload-artifact@v3
         with:
